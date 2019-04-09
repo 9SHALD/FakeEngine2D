@@ -4,50 +4,29 @@
 // Include GLFW
 #include <glfw3.h>
 
-#include <RealEngine2D/renderer.h>
-#include <RealEngine2D/camera.h>
-#include <RealEngine2D/sprite.h>
 #include <RealEngine2D/scene.h>
+#include <RealEngine2D/core.h>
+#include "demo/mainScene.h"
 
 int main( void )
 {
-	Renderer renderer(1280, 720);
-	Scene* sc = new Scene();
+	Core core;
+	mainScene* MainScene = new mainScene();
 
-	Sprite* pencils = new Sprite("assets/pencils.tga");
-	Sprite* kingkong = new Sprite("assets/kingkong.tga");
-	Sprite* rgba = new Sprite("assets/rgba.tga");
-	
+	MainScene->isRunning = true;
 
 	float rot_z = 0.0f;
 
 	do {
-		// Clear the screen
-		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+		core.run(MainScene);
 
-		// Compute the ViewMatrix from keyboard and mouse input (see: camera.h/cpp)
-		sc->getCamera()->computeMatricesFromInputs(renderer.window());
-
-		//glm::vec3 cursor = getCursor(); // from Camera
-		//printf("(%f,%f)\n",cursor.x, cursor.y);
-
-		// Render all Sprites (Sprite*, xpos, ypos, xscale, yscale, rotation)
-		renderer.renderSprite(pencils, 400, 300, 1.0f, 1.0f, 0.0f);
-		renderer.renderSprite(kingkong, 900, 400, 1.0f, 1.0f, 0.0f);
-		renderer.renderSprite(rgba, renderer.width()/2, renderer.height()/2, 3.0f, 3.0f, rot_z);
-		rot_z += 0.03f;
-
-		// Swap buffers
-		glfwSwapBuffers(renderer.window());
+		glfwSwapBuffers(core.renderer.window());
 		glfwPollEvents();
 
 	} // Check if the ESC key was pressed or the window was closed
-	while( glfwGetKey(renderer.window(), GLFW_KEY_ESCAPE ) != GLFW_PRESS &&
-		   glfwWindowShouldClose(renderer.window()) == 0 );
-
-	delete pencils;
-	delete kingkong;
-	delete rgba;
+	while( glfwGetKey(core.renderer.window(), GLFW_KEY_ESCAPE ) != GLFW_PRESS &&
+		   glfwWindowShouldClose(core.renderer.window()) == 0 );
+	delete MainScene;
 
 	// Close OpenGL window and terminate GLFW
 	glfwTerminate();

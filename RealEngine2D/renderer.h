@@ -10,22 +10,24 @@
 
 #include <RealEngine2D/sprite.h>
 #include <RealEngine2D/camera.h>
+#include <RealEngine2D/scene.h>
 
 class Renderer
 {
 	public:
-		Renderer(unsigned int w, unsigned int h);
+		Renderer(unsigned int w = 1280, unsigned int h = 720);
 		virtual ~Renderer();
 
-		void renderSprite(Sprite* sprite, float px, float py, float sx, float sy, float rot);
-		void renderScene();
+		void setViewMatrix(glm::mat4 vm) { _viewMatrix = vm; };
+
+		void renderEntity(Entity* ent);
+		void renderScene(Scene* scene);
 		GLFWwindow* window() { return _window; };
 
 		unsigned int width() { return _window_width; };
 		unsigned int height() { return _window_height; };
 
 	private:
-		Camera cam;
 		int init();
 
 		GLFWwindow* _window;
@@ -40,6 +42,7 @@ class Renderer
 		GLuint _programID;
 
 		glm::mat4 _projectionMatrix;
+		glm::mat4 _viewMatrix;
 
 };
 

@@ -9,6 +9,7 @@
 #include <glm/gtx/euler_angles.hpp>
 
 #include<RealEngine2D/sprite.h>
+#include<RealEngine2D/input.h>
 
 
 class Entity
@@ -18,28 +19,34 @@ public:
 		Entity();
 		~Entity();
 
-		float xpos;
-		float ypos;
-		float xscale;
-		float yscale;
-		float rotation;
+		virtual void update(float deltaTime);
 
-		std::vector <Entity*> children;
+		glm::vec3 position;
+		glm::vec3 scale;
+		glm::vec3 rotation;
 
-		Entity* parent;
+		void addChild(Entity* e);
 
-		void addChild(Entity* ent);
+		void removeChild(Entity* e);
+
+		const std::vector<Entity*>& getChildren() { return children; };
 
 		int childrenLenght() { return children.size(); };
-		
-		Sprite* getSprite() { return _sprite; };
 
+		Sprite* getSprite() { return sprite; };
 
 		void addSprite(std::string filepath);
 
-private:
+		int guid() { return eid; };
 
-		Sprite* _sprite;
+		Entity* parent;
+		std::vector<Entity*> children;
+private:
+		
+		int eid;
+		int nextEid;
+
+		Sprite* sprite;
 };
 
 

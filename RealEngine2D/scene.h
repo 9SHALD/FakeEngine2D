@@ -8,19 +8,21 @@
 
 #include <vector>
 
-class Scene{
+class Scene : public Entity {
 public:
 	Scene();
 	~Scene();
-
-	void addEntity(Entity* ent);
+	
+	bool isRunning;
 
 	Camera* getCamera() { return _camera; };
-	int entitiesLength() { return _entities.size(); };
+
+	void updateScene(float deltaTime);
 
 private:
 	Camera* _camera;
-	std::vector <Entity*> _entities;
+
+	void _updateEntity(Entity* entity, float deltaTime);
 
 };
 

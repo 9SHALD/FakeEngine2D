@@ -69,11 +69,17 @@ add_library(RealEngine2D
 	RealEngine2D/scene.cpp
 	RealEngine2D/entity.h
 	RealEngine2D/entity.cpp
+	RealEngine2D/core.h
+	RealEngine2D/core.cpp
+	RealEngine2D/input.h
+	RealEngine2D/input.cpp
 )
 
 # Demo
 add_executable(demo
 	demo/demo.cpp
+	demo/mainScene.h
+	demo/mainScene.cpp
 )
 target_link_libraries(demo
 	RealEngine2D
