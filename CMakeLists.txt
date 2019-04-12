@@ -80,6 +80,8 @@ add_executable(demo
 	demo/demo.cpp
 	demo/mainScene.h
 	demo/mainScene.cpp
+	demo/kingkong.h
+	demo/kingkong.cpp
 )
 target_link_libraries(demo
 	RealEngine2D

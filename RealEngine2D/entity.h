@@ -46,6 +46,7 @@ private:
 		int eid;
 		int nextEid;
 
+		Input* input;
 		Sprite* sprite;
 };
 

@@ -133,8 +133,22 @@ void Renderer::renderEntity(Entity* ent)
 	glDisableVertexAttribArray(vertexUVID);
 }
 
-void Renderer::renderScene(Scene* scene) {
-	//_viewMatrix = scene->getCamera()->getViewMatrix(); // get from Camera (Camera position and direction)
+void Renderer::renderScene(Scene* sc) {
+	if (sc->isRunning) {
+		// Clear the screen
+		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
+		// Get the viewmatrix from the camera
+		sc->getCamera()->computeMatricesFromInputs(window());
+		glm::mat4 _viewMatrix = sc->getCamera()->getViewMatrix();
+		setViewMatrix(_viewMatrix);
+
+
+		// Tell the renderer to render all the entities in the scene
+		for (int i = 0; i < sc->children.size(); i++) {
+			renderEntity(sc->children[i]);
+		}
+	}
 }
 
 GLuint Renderer::loadShaders(const char* vertex_file_path, const char* fragment_file_path)

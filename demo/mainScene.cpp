@@ -1,18 +1,20 @@
-#include "demo/mainScene.h"
+#include "mainScene.h"
+#include "kingkong.h"
+#include <iostream>
 
 mainScene::mainScene() : Scene(){
 
 	pencils = new Entity();
-	kingkong = new Entity();
+	kingkong = new Kingkong();
 	rgba = new Entity();
 
 	pencils->addSprite("assets/pencils.tga");
 	pencils->position = glm::vec3(300, 457, 0);
 	pencils->scale = glm::vec3(1, 1, 1);
 
-	kingkong->addSprite("assets/kingkong.tga");
-	kingkong->position = glm::vec3(960, 540, 0);
-	kingkong->scale = glm::vec3(1, 1, 1);
+	//kingkong->addSprite("assets/kingkong.tga");
+	//kingkong->position = glm::vec3(960, 540, 0);
+	//kingkong->scale = glm::vec3(1, 1, 1);
 
 	rgba->addSprite("assets/rgba.tga");
 	rgba->position = glm::vec3(462, 100, 0);
@@ -30,4 +32,5 @@ mainScene::~mainScene() {
 }
 
 void mainScene::update(float deltaTime) {
+	
 }

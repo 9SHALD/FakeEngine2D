@@ -1,10 +1,7 @@
-#include <iostream>
-#include <RealEngine2D/input.h>
-
+#include "input.h"
 Input* Input::instance = nullptr;
 Input* Input::getInstance() {
 	if (instance == nullptr) {
-		std::cout << "Made Instance" << std::endl;
 		instance = new Input();
 	}
 	return instance;
@@ -16,14 +13,17 @@ Input::Input() {
 	for (unsigned int i = 0; i < LastKey; i++) {
 		_keys[i] = false;
 		_keysDown[i] = false;
-		_keysUp[i] = false;
+		_keysPressed[i] = false;
 	}
 
 	for (unsigned int i = 0; i < LastButton; i++) {
 		_buttons[i] = false;
 		_buttonsDown[i] = false;
-		_buttonsUp[i] = false;
+		_buttonsPressed[i] = false;
 	}
+}
+
+Input::~Input() {
 }
 
 void Input::init(GLFWwindow* window) {
@@ -55,18 +55,25 @@ bool Input::getKeyDown(int keyCode) {
 		return true;
 	} else if (!Input::getInstance()->_keys[keyCode] && Input::getInstance()->_keysDown[keyCode]) {
 		Input::getInstance()->_keysDown[keyCode] = false;
-		return false;
 	}
 	return false;
 }
 
-/*bool Input::getKeyUp(int keyCode) {
-	if (!Input::getInstance()->_keys[keyCode] && Input::getInstance()->_keysDown[keyCode]) {
+bool Input::getKeyUp(int keyCode) {
+	if (Input::getInstance()->_keys[keyCode] && !Input::getInstance()->_keysDown[keyCode] && !Input::getInstance()->_keysPressed[keyCode]) {
 		Input::getInstance()->_keysDown[keyCode] = true;
+		Input::getInstance()->_keysPressed[keyCode] = true;
+		return false;
+	} else if (!Input::getInstance()->_keys[keyCode] && Input::getInstance()->_keysDown[keyCode] && Input::getInstance()->_keysPressed[keyCode]) {
+		Input::getInstance()->_keysDown[keyCode] = false;
+		return false;
+	}
+	if (!Input::getInstance()->_keys[keyCode] && !Input::getInstance()->_keysDown[keyCode] && Input::getInstance()->_keysPressed[keyCode]) {
+		Input::getInstance()->_keysPressed[keyCode] = false;
 		return true;
 	}
 	return false;
-}*/
+}
 
 bool Input::getButton(int keyCode) {
 	return Input::getInstance()->_buttons[keyCode];
@@ -78,30 +85,33 @@ bool Input::getButtonDown(int keyCode) {
 		return true;
 	} else if (!Input::getInstance()->_buttons[keyCode] && Input::getInstance()->_buttonsDown[keyCode]) {
 		Input::getInstance()->_buttonsDown[keyCode] = false;
-		return false;
 	}
 	return false;
 }
 
-/*bool Input::getButtonUp(int keyCode) {
-	if (Input::getInstance()->_buttons[keyCode] && !Input::getInstance()->_buttonsDown[keyCode]) {
+bool Input::getButtonUp(int keyCode) {
+	if (Input::getInstance()->_buttons[keyCode] && !Input::getInstance()->_buttonsDown[keyCode] && !Input::getInstance()->_buttonsPressed[keyCode]) {
 		Input::getInstance()->_buttonsDown[keyCode] = true;
+		Input::getInstance()->_buttonsPressed[keyCode] = true;
 		return false;
-	} else if (!Input::getInstance()->_buttons[keyCode] && Input::getInstance()->_buttonsDown[keyCode]) {
+	} else if (!Input::getInstance()->_buttons[keyCode] && Input::getInstance()->_buttonsDown[keyCode] && Input::getInstance()->_buttonsPressed[keyCode]) {
 		Input::getInstance()->_buttonsDown[keyCode] = false;
 		return false;
 	}
-	return false
-}*/
-
+	if (!Input::getInstance()->_buttons[keyCode] && !Input::getInstance()->_buttonsDown[keyCode] && Input::getInstance()->_buttonsPressed[keyCode]) {
+		Input::getInstance()->_buttonsPressed[keyCode] = false;
+		return true;
+	}
+	return false;
+}
 void Input::handleKey(unsigned int key) {
 	if (glfwGetKey(_window, key) == GLFW_PRESS) {
 		if (_keys[key] == false) {
 			Input::getInstance()->_keys[key] = true;
-			std::cout << "key Pressed: " << key << std::endl;
+			//std::cout << "key Pressed: " << key << std::endl;
 		} else if (glfwGetKey(_window, key) == GLFW_RELEASE) {
 			Input::getInstance()->_keys[key] = false;
-			std::cout << "key released: " << key << std::endl;
+			//std::cout << "key released: " << key << std::endl;
 		}
 	}
 }
@@ -111,14 +121,10 @@ void Input::handleMouse(unsigned int button) {
 		if (_buttons[button] == false) {
 			Input::getInstance()->_buttons[button] = true;
 			glfwSetInputMode(_window, GLFW_STICKY_MOUSE_BUTTONS, 1);
-			std::cout << "button Pressed: " << button << std::endl;
+			//std::cout << "button Pressed: " << button << std::endl;
 		} else if (glfwGetMouseButton(_window, button) == GLFW_RELEASE) {
 			Input::getInstance()->_buttons[button] = false;
-			std::cout << "button released: " << button << std::endl;
+			//std::cout << "button released: " << button << std::endl;
 		}
 	}
 }
-
-
-
-

@@ -14,11 +14,13 @@ class Camera {
 		Camera();
 		virtual ~Camera();
 		void computeMatricesFromInputs(GLFWwindow* window);
-
+		
+		virtual void updateCamera(float deltaTime);
+		
 		glm::mat4 getViewMatrix() { return _viewMatrix; };
 		glm::vec3 getCursor() { return cursor; };
 
-
+		
 	private:
 		glm::mat4 _viewMatrix;
 

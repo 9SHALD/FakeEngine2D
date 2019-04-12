@@ -139,45 +139,45 @@ enum KeyCode {
 	RightAlt = 346,
 	RightSuper = 347,
 	Menu = 348,
-	LastKey = GLFW_KEY_LAST
+	LastKey = GLFW_KEY_LAST,
 };
 
 class Input {
-	public:
-		static Input* getInstance();
-		Input();
-		
-		void updateInput();
-		void init(GLFWwindow* window);
-		double getMouseX() { return _mouseX; }
-		double getMouseY() { return _mouseY; }
-		
-		bool getKey(int keyCode);
-		bool getKeyDown(int keyCode);
-		//bool getKeyUp(int keyCode);
+public:
+	static Input* getInstance();
+	Input();
+	virtual ~Input();
 
-		bool getButton(int keyCode);
-		bool getButtonDown(int keyCode);
-		//bool getButtonUp(int keyCode);
+	void updateInput();
+	void init(GLFWwindow* window);
+	double getMouseX() { return _mouseX; }
+	double getMouseY() { return _mouseY; }
 
-	private:
-		static Input* instance;
-		GLFWwindow* _window;
+	bool getKey(int keyCode);
+	bool getKeyDown(int keyCode);
+	bool getKeyUp(int keyCode);
 
-		void handleKey(unsigned int key);
-		void handleMouse(unsigned int button);
+	bool getButton(int keyCode);
+	bool getButtonDown(int keyCode);
+	bool getButtonUp(int keyCode);
 
-		bool _keys[LastKey];
-		bool _keysDown[LastKey];
-		bool _keysUp[LastKey];
+private:
+	static Input* instance;
+	GLFWwindow* _window;
 
-		bool _buttons[LastButton];
-		bool _buttonsDown[LastButton];
-		bool _buttonsUp[LastButton];
-		
-		double _mouseX;
-		double _mouseY;
+	void handleKey(unsigned int key);
+	void handleMouse(unsigned int button);
+
+	bool _keys[LastKey];
+	bool _keysDown[LastKey];
+	bool _keysPressed[LastKey];
+
+	bool _buttons[LastButton];
+	bool _buttonsDown[LastButton];
+	bool _buttonsPressed[LastButton];
+
+	double _mouseX;
+	double _mouseY;
 };
-
 
 #endif

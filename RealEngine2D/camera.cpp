@@ -59,3 +59,7 @@ void Camera::computeMatricesFromInputs(GLFWwindow* window) {
 	// For the next frame, the "last time" will be "now"
 	lastTime = currentTime;
 }
+
+void Camera::updateCamera(float deltaTime) {
+
+}

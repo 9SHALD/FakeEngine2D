@@ -4,8 +4,10 @@
 
 #include <realEngine2d/scene.h>
 #include <realEngine2d/entity.h>
-
+#include <realEngine2d/Input.h>
 #include <vector>
+
+#include "kingkong.h"
 
 class mainScene : public Scene {
 public:
@@ -17,8 +19,9 @@ public:
 
 private:
 	Entity* pencils;
-	Entity* kingkong;
+	//Entity* kingkong;
 	Entity* rgba;
+	Kingkong* kingkong;
 
 };
 
